@@ -50,7 +50,7 @@ void footer() {
 */
 float getLux() {
   uint16_t lux = lightMeter.readLightLevel(false);
-
+  Serial.println(lux);
   if (lux >= 65534) {
     // light sensor is overloaded.
     Overflow = 1;
@@ -410,7 +410,7 @@ void refresh() {
     Tfr = round(1 / T);
   }
 
-  uint8_t linePos[] = {15, 37};
+  uint8_t linePos[] = {15, 24};
   display.clearDisplay();
   display.setTextColor(WHITE);
 
@@ -430,7 +430,7 @@ void refresh() {
   display.drawLine(0, 10, 128, 10, WHITE); // LINE DIVISOR
 
   display.setCursor(10, linePos[0]);
-  display.setTextSize(2);
+  display.setTextSize(1);
   display.print(F("f/"));
   if (A > 0) {
     if (A >= 100) {
@@ -500,7 +500,7 @@ void refresh() {
     display.println(ndStop / 10.0, 1);
   }
 
-  display.setTextSize(2);
+  display.setTextSize(1);
   display.setCursor(10, linePos[1]);
   display.print(F("T:"));
 
@@ -523,7 +523,7 @@ void refresh() {
 
   // priority marker (shutter or aperture priority indicator)
   display.setTextSize(1);
-  display.setCursor(0, linePos[modeIndex] + 5);
+  display.setCursor(0, linePos[modeIndex] + 3);
   display.print(F("*"));
 
   display.display();
@@ -535,10 +535,10 @@ void showISOMenu() {
   mainScreen = false;
 
   display.clearDisplay();
-  display.setTextSize(2);
+  display.setTextSize(1);
   display.setCursor(50, 4);
   display.println(F("ISO"));
-  display.setTextSize(3);
+  display.setTextSize(1);
 
   long iso = getISOByIndex(ISOIndex);
 
@@ -568,10 +568,10 @@ void showNDMenu() {
   NDMenu = true;
 
   display.clearDisplay();
-  display.setTextSize(2);
+  display.setTextSize(1);
   display.setCursor(10, 4);
   display.println(F("ND Filter"));
-  display.setTextSize(3);
+  display.setTextSize(1);
 
   if (ndIndex > 9) {
     display.setCursor(10, 40);
@@ -587,7 +587,7 @@ void showNDMenu() {
     display.print(F("ND"));
     display.print(pow(2, ndIndex), 0);
   } else {
-    display.setTextSize(2);
+    display.setTextSize(1);
     display.setCursor(10, 40);
     display.print(F("No filter"));
   }
@@ -731,4 +731,3 @@ void readButtons() {
   MenuButtonState = digitalRead(MenuButtonPin);
   MeteringModeButtonState = digitalRead(MeteringModeButtonPin);
 }
-

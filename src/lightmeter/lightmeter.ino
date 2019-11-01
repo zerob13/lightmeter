@@ -13,7 +13,7 @@
 #define OLED_RESET              10 //13
 Adafruit_SSD1306 display(OLED_MOSI, OLED_CLK, OLED_DC, OLED_RESET, OLED_CS);
 
-BH1750 lightMeter;
+BH1750 lightMeter(0x23);
 
 #define DomeMultiplier          2.17                    // Multiplier when using a white translucid Dome covering the lightmeter
 #define MeteringButtonPin       2                       // Metering button pin
@@ -81,12 +81,16 @@ void setup() {
   pinMode(MenuButtonPin, INPUT_PULLUP);
   pinMode(MeteringModeButtonPin, INPUT_PULLUP);
 
-  //Serial.begin(115200);
+  Serial.begin(115200);
 
   battVolts = getBandgap();  //Determins what actual Vcc is, (X 100), based on known bandgap voltage
 
   Wire.begin();
-  lightMeter.begin(BH1750::ONE_TIME_HIGH_RES_MODE_2);
+  if(lightMeter.begin(BH1750::ONE_TIME_HIGH_RES_MODE_2)){
+    Serial.println(F("BH1750 initialised"));
+  }else{
+    Serial.println(F("shit happen"));
+  }
   //lightMeter.begin(BH1750::ONE_TIME_LOW_RES_MODE); // for low resolution but 16ms light measurement time.
 
   display.begin(SSD1306_SWITCHCAPVCC, 0x3D);
