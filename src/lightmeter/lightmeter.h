@@ -41,7 +41,7 @@ int getBandgap(void) {
 }
 
 void footer() {
-  display.setCursor(0, 55);
+  display.setCursor(0, 25);
   display.print(F("press M"));
 }
 
@@ -50,7 +50,6 @@ void footer() {
 */
 float getLux() {
   uint16_t lux = lightMeter.readLightLevel(false);
-  Serial.println(lux);
   if (lux >= 65534) {
     // light sensor is overloaded.
     Overflow = 1;
@@ -250,7 +249,7 @@ float getTimeByIndex(uint8_t indx) {
   return t;
 }
 
-// Convert calculated time (in seconds) to photograpy style shutter speed. 
+// Convert calculated time (in seconds) to photograpy style shutter speed.
 double fixTime(double t) {
   double divider = 1;
 
@@ -311,7 +310,7 @@ double fixTime(double t) {
   return t;
 }
 
-// Convert calculated aperture value to photograpy style aperture value. 
+// Convert calculated aperture value to photograpy style aperture value.
 float fixAperture(float a) {
   for (int i = 0; i < MaxApertureIndex; i++) {
     float a1 = getApertureByIndex(i);
@@ -488,7 +487,7 @@ void refresh() {
     display.println(0, 0);
   }
 
-// ND filter indicator
+  // ND filter indicator
   if (ndIndex > 0) {
     //display.drawLine(0, 55, 128, 55, WHITE); // LINE DIVISOR
     display.setTextSize(1);
@@ -536,24 +535,24 @@ void showISOMenu() {
 
   display.clearDisplay();
   display.setTextSize(1);
-  display.setCursor(50, 4);
+  display.setCursor(50, 1);
   display.println(F("ISO"));
-  display.setTextSize(1);
+  display.setTextSize(2);
 
   long iso = getISOByIndex(ISOIndex);
 
   if (iso > 999999) {
-    display.setCursor(0, 40);
+    display.setCursor(0, 14);
   } else if (iso > 99999) {
-    display.setCursor(10, 40);
+    display.setCursor(10, 14);
   } else if (iso > 9999) {
-    display.setCursor(20, 40);
+    display.setCursor(20, 14);
   } else if (iso > 999) {
-    display.setCursor(30, 40);
+    display.setCursor(30, 14);
   } else if (iso > 99) {
-    display.setCursor(40, 40);
+    display.setCursor(40, 14);
   } else {
-    display.setCursor(50, 40);
+    display.setCursor(50, 14);
   }
 
   display.print(iso);
@@ -569,26 +568,26 @@ void showNDMenu() {
 
   display.clearDisplay();
   display.setTextSize(1);
-  display.setCursor(10, 4);
+  display.setCursor(10, 1);
   display.println(F("ND Filter"));
-  display.setTextSize(1);
+  display.setTextSize(2);
 
   if (ndIndex > 9) {
-    display.setCursor(10, 40);
+    display.setCursor(10, 14);
   } else if (ndIndex > 6) {
-    display.setCursor(20, 40);
+    display.setCursor(20, 14);
   } else if (ndIndex > 3) {
-    display.setCursor(30, 40);
+    display.setCursor(30, 14);
   } else {
-    display.setCursor(40, 40);
+    display.setCursor(40, 14);
   }
 
   if (ndIndex > 0) {
     display.print(F("ND"));
     display.print(pow(2, ndIndex), 0);
   } else {
-    display.setTextSize(1);
-    display.setCursor(10, 40);
+    display.setTextSize(2);
+    display.setCursor(10, 14);
     display.print(F("No filter"));
   }
 
@@ -730,4 +729,22 @@ void readButtons() {
   ModeButtonState = digitalRead(ModeButtonPin);
   MenuButtonState = digitalRead(MenuButtonPin);
   MeteringModeButtonState = digitalRead(MeteringModeButtonPin);
+  if (PlusButtonState != 1) {
+    Serial.println(1);
+  }
+  if (MinusButtonState != 1) {
+    Serial.println(2);
+  }
+  if (MeteringButtonState != 1) {
+    Serial.println(3);
+  }
+  if (ModeButtonState != 1) {
+    Serial.println(4);
+  }
+  if (MenuButtonState != 1) {
+    Serial.println(5);
+  }
+  if (MeteringModeButtonState != 1) {
+    Serial.println(6);
+  }
 }

@@ -81,7 +81,7 @@ void setup() {
   pinMode(MenuButtonPin, INPUT_PULLUP);
   pinMode(MeteringModeButtonPin, INPUT_PULLUP);
 
-  Serial.begin(115200);
+  Serial.begin(9600);
 
   battVolts = getBandgap();  //Determins what actual Vcc is, (X 100), based on known bandgap voltage
 
